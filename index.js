@@ -48,8 +48,7 @@ restService.post('/testToken', function(req, res) {
             });
      }
      else {
-            sendCommand = "help";
-            makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
+            makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', "help").then((output) => {
             res.setHeader('Content-Type', 'application/json');
             if(sendCommand !== "") {
                 res.send(JSON.stringify({ 'speech': "help", 'displayText': "help" }));
