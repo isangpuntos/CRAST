@@ -37,7 +37,7 @@ restService.post('/testToken', function(req, res) {
     
     //console.log(dateTimeRetrieved)
     //console.log("dateTimeRetrieved")
-    var resource = {
+    /*var resource = {
         summary: events.Event_name,
         location: location.Location,
         start: {
@@ -57,16 +57,15 @@ restService.post('/testToken', function(req, res) {
         sendNotifications: true,
         resource: resource
             },function(err,resp) {
-            if (err) {
-                res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
-                return;
-            }
-            else {
-                res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
-            }
+                if (err) {
+                    res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
+                }
+                else {
+                    res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
+                }
             }); 
         }
-    }
+    }*/
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
     if(command === "turn") {
             makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
