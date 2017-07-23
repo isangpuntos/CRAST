@@ -27,14 +27,44 @@ restService.post('/testToken', function(req, res) {
     var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
     var sendCommand = (command + " " + state).trim();
     
-    makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
-    res.setHeader('Content-Type', 'application/json');
-    if(sendCommand !== "") {
-        res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
-    }
-    else {
-        res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
-    }
+    var command = req.body.result && req.body.result.parameters && req.body.result.parameters.command? req.body.result.parameters.command : "";
+    var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
+    var sendCommand = (command + " " + state).trim();
+    var clientId="862675482394-53d0qctv04es2ikt30klg5g1tkgvl24o.apps.googleusercontent.com";
+    var clientSecret="8-YHNjXJd1_Og8gDqt2Nd0PD";
+    var redirectUrl="https://oauth-redirect.googleusercontent.com/r/crast-webhook";
+    var oauth2Client = new auth.OAuth2(clientId, clientSecret,redirectUrl);
+    
+    //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
+    if(command === "turn") {
+            makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
+            res.setHeader('Content-Type', 'application/json');
+            if(sendCommand !== "") {
+                res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
+            }
+            else {
+                res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+            } 
+            }).catch((error) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
+            });
+     }
+     else {
+            sendCommand = "help";
+            makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
+            res.setHeader('Content-Type', 'application/json');
+            if(sendCommand !== "") {
+                res.send(JSON.stringify({ 'speech': "help", 'displayText': "help" }));
+            }
+            else {
+                res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+            } 
+            }).catch((error) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
+            });
+     }
         
   }).catch((error) => {
     res.setHeader('Content-Type', 'application/json');
