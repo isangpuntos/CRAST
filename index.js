@@ -37,7 +37,7 @@ restService.post('/testToken', function(req, res) {
     
     //console.log(dateTimeRetrieved)
     //console.log("dateTimeRetrieved")
-    /*var resource = {
+    var resource = {
         summary: events.Event_name,
         location: location.Location,
         start: {
@@ -65,41 +65,38 @@ restService.post('/testToken', function(req, res) {
                 }
             }); 
         }
-    }*/
+    }
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
     if(command === "turn") {
-            makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
-            res.setHeader('Content-Type', 'application/json');
-            if(sendCommand !== "") {
-                res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
-            }
-            else {
-                res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
-            } 
-            }).catch((error) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
-            });
-     }
-     else {
-            makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', 'help').then((output) => {
-            res.setHeader('Content-Type', 'application/json');
-            if(sendCommand !== "") {
-                res.send(JSON.stringify({ 'speech': "help", 'displayText': "help" }));
-            }
-            else {
-                res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
-            } 
-            }).catch((error) => {
+        makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
+        res.setHeader('Content-Type', 'application/json');
+        if(sendCommand !== "") {
+            res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
+        }
+        else {
+            res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+        }
+
+        }).catch((error) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
-            });
-     }
-        
-  }).catch((error) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
-  });
+        });
+    }
+    else {
+        makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', 'help').then((output) => {
+        res.setHeader('Content-Type', 'application/json');
+        if(sendCommand !== "") {
+            res.send(JSON.stringify({ 'speech': 'help', 'displayText': 'help' }));
+        }
+        else {
+            res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+        }
+
+        }).catch((error) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
+        });
+    }
 
 });
 
