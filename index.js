@@ -45,22 +45,23 @@ restService.post('/testToken', function(req, res) {
         },
         attendees: ['me']
     };
-                 
-    var calendar = google.calendar('v3');
-    calendar.events.insert({
-    auth: oauth2Client,
-    calendarId: 'primary',
-    sendNotifications: true,
-    resource: resource
-    },function(err,resp) {
-    if (err) {
-        res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
-        return;
+              
+    if(command === "") {
+        var calendar = google.calendar('v3');
+        calendar.events.insert({
+        auth: oauth2Client,
+        calendarId: 'primary',
+        sendNotifications: true,
+        resource: resource
+            },function(err,resp) {
+            if (err) {
+                res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
+                return;
+            }
+                res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
+            });
+        }
     }
-        res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
-    });
-    }
-    
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
     if(command === "turn") {
             makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
