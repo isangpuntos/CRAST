@@ -31,6 +31,35 @@ restService.post('/testToken', function(req, res) {
     var clientSecret="8-YHNjXJd1_Og8gDqt2Nd0PD";
     var redirectUrl="https://oauth-redirect.googleusercontent.com/r/crast-webhook";
     var oauth2Client = new auth.OAuth2(clientId, clientSecret,redirectUrl);
+    var dateTimeRetrieved = req.body.result && req.body.result.parameters && req.body.result.parameters.date-time? req.body.result.parameters.date-time: "";
+    var any = req.body.result && req.body.result.parameters && req.body.result.parameters.any? 
+    
+    var resource = {
+        summary: events.Event_name,
+        location: location.Location,
+        start: {
+        dateTime: dateTimeRetrieved
+        },
+        end: {
+        dateTime: dateTimeRetrieved
+        },
+        attendees: ['me']
+    };
+                 
+    var calendar = google.calendar('v3');
+    calendar.events.insert({
+    auth: oauth2Client,
+    calendarId: 'primary',
+    sendNotifications: true,
+    resource: resource
+    },function(err,resp) {
+    if (err) {
+            console.log('There was an error : ' + err);
+    return;
+    }
+    console.log(resp,'Event created:', resp.htmlLink);
+    });
+    }
     
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
     if(command === "turn") {
