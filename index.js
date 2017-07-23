@@ -59,7 +59,7 @@ restService.post('/testToken', function(req, res) {
                 return;
             }
                 res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
-            });
+            }); 
         }
     }
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
