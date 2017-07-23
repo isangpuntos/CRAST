@@ -35,7 +35,7 @@ restService.post('/testToken', function(req, res) {
     var dateTimeRetrieved = req.body.result && req.body.result.parameters && req.body.result.parameters.date-time? req.body.result.parameters.date-time: "";
     var any = req.body.result && req.body.result.parameters && req.body.result.parameters.any? 
     
-    console.log(dateTimeRetrieved)
+    //console.log(dateTimeRetrieved)
     //console.log("dateTimeRetrieved")
     var resource = {
         summary: events.Event_name,
