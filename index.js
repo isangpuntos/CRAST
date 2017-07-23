@@ -65,7 +65,6 @@ restService.post('/testToken', function(req, res) {
                 }
             }); 
         }
-    }
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
     if(command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
