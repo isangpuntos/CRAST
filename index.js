@@ -28,13 +28,13 @@ restService.post('/testToken', function(req, res) {
     var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
     var sendCommand = (command + " " + state).trim();
     
-    var clientId="862675482394-53d0qctv04es2ikt30klg5g1tkgvl24o.apps.googleusercontent.com";
+    /*var clientId="862675482394-53d0qctv04es2ikt30klg5g1tkgvl24o.apps.googleusercontent.com";
     var clientSecret="8-YHNjXJd1_Og8gDqt2Nd0PD";
     var redirectUrl="https://oauth-redirect.googleusercontent.com/r/crast-webhook";
     var oauth2Client = new auth.OAuth2(clientId, clientSecret,redirectUrl);
     var dateTimeRetrieved = req.body.result && req.body.result.parameters && req.body.result.parameters.date-time? req.body.result.parameters.date-time: "";
     var any = req.body.result && req.body.result.parameters && req.body.result.parameters.any? 
-    
+    */
     makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
     res.setHeader('Content-Type', 'application/json');
     if(sendCommand !== "") {
@@ -43,11 +43,11 @@ restService.post('/testToken', function(req, res) {
     else {
         res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
     }
-
-    }).catch((error) => {
+        
+      }).catch((error) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
-    });
+      });
     //console.log(dateTimeRetrieved)
     //console.log("dateTimeRetrieved")
     /*var resource = {
