@@ -27,9 +27,6 @@ restService.post('/testToken', function(req, res) {
     var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
     var sendCommand = (command + " " + state).trim();
     
-    var command = req.body.result && req.body.result.parameters && req.body.result.parameters.command? req.body.result.parameters.command : "";
-    var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
-    var sendCommand = (command + " " + state).trim();
     var clientId="862675482394-53d0qctv04es2ikt30klg5g1tkgvl24o.apps.googleusercontent.com";
     var clientSecret="8-YHNjXJd1_Og8gDqt2Nd0PD";
     var redirectUrl="https://oauth-redirect.googleusercontent.com/r/crast-webhook";
