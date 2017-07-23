@@ -35,9 +35,22 @@ restService.post('/testToken', function(req, res) {
     var dateTimeRetrieved = req.body.result && req.body.result.parameters && req.body.result.parameters.date-time? req.body.result.parameters.date-time: "";
     var any = req.body.result && req.body.result.parameters && req.body.result.parameters.any? 
     
+    makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
+    res.setHeader('Content-Type', 'application/json');
+    if(sendCommand !== "") {
+        res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
+    }
+    else {
+        res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+    }
+
+    }).catch((error) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
+    });
     //console.log(dateTimeRetrieved)
     //console.log("dateTimeRetrieved")
-    var resource = {
+    /*var resource = {
         summary: events.Event_name,
         location: location.Location,
         start: {
@@ -67,19 +80,7 @@ restService.post('/testToken', function(req, res) {
         }
     //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
     if(command === "turn") {
-        makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
-        res.setHeader('Content-Type', 'application/json');
-        if(sendCommand !== "") {
-            res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
-        }
-        else {
-            res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
-        }
 
-        }).catch((error) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
-        });
     }
     else {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', 'help').then((output) => {
@@ -95,7 +96,7 @@ restService.post('/testToken', function(req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
-    }
+    }*/
 
 });
 
