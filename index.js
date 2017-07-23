@@ -37,7 +37,17 @@ restService.post('/testToken', function(req, res) {
     
     //console.log(dateTimeRetrieved)
     //console.log("dateTimeRetrieved")
-
+    var resource = {
+        summary: events.Event_name,
+        location: location.Location,
+        start: {
+            dateTime: dateTimeRetrieved
+        },
+        end: {
+            dateTime: dateTimeRetrieved
+        },
+        attendees: ['me']
+    };
               
     if(command === "") {
         var calendar = google.calendar('v3');
@@ -51,7 +61,9 @@ restService.post('/testToken', function(req, res) {
                 res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
                 return;
             }
+            else {
                 res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
+            }
             }); 
         }
     }
