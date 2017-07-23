@@ -54,10 +54,10 @@ restService.post('/testToken', function(req, res) {
     resource: resource
     },function(err,resp) {
     if (err) {
-            console.log('There was an error : ' + err);
-    return;
+        res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
+        return;
     }
-    console.log(resp,'Event created:', resp.htmlLink);
+        res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
     });
     }
     
