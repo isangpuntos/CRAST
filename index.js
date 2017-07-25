@@ -37,7 +37,11 @@ restService.post('/testToken', function(req, res) {
     var date = req.body.result && req.body.result.parameters && req.body.result.parameters.date? req.body.result.parameters.date : "";
     var time = req.body.result && req.body.result.parameters && req.body.result.parameters.time? req.body.result.parameters.time : "";
     var event = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
-    
+    console.log(command)
+	console.log(state)
+    console.log(date)
+    console.log(time)
+    console.log(event)
     var sendCommand = (command + " " + state).trim();
     if(sendCommand !== "" && command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
