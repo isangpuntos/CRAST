@@ -59,7 +59,7 @@ restService.post('/testToken', function(req, res) {
         });
     } else if(date !== "" && time !== "" && event !== "") {
         firebase.database().ref(date).update({
-            this.time : event
+            [time] : event
         });
         res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
         
