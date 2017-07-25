@@ -69,7 +69,7 @@ restService.post('/testToken', function(req, res) {
             var obj = JSON.parse(JSON.stringify(snapshot.val()));
             var array = Object.keys(obj);
             for (var i = 0; i < array.length; i++) {
-                sched += array[i] + ":" + obj[array[i]] + "\n";
+                sched += array[i] + ":" + obj[array[i]].toString() + "\n";
             }
                 res.send(JSON.stringify({ 'speech': sched, 'displayText': sched }));
             }, function (errorObject) {
