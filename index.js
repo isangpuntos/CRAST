@@ -6,7 +6,15 @@ const bodyParser = require('body-parser');
 const restService = express();
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var Promise = require('promise');
-var google = require('googleapis');
+var firebase = require('firebase');
+var app = firebase.initializeApp({
+    ServiceAccount: {
+       projectId: "copycat-a727c",
+       clientEmail: "isang.puntos@gmail.com",
+       privateKey: "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC99n7ey2K88nmm\nCmzPM65PGAP9ko/GeMuo9OG5HtRgqKPxbSfsI7jqp9m/QdGaNu38GP5A9gayBcMz\nwoeB7Ny7AHJxXf8XQwnSpaafHXFVo3Mr1aiShE/WzGRKFZE6nRmHrMri4Li+xAtP\nyMWcz6gnr//eytgMfy+VwdAdX4raFaashd5edJ3S/c4zH29rGb9DLYDGNkl6XKGL\n5vh23yw5FnAXGHSOY/GSVo+pB/MnUZQETZw7Z+LdI9PMO+4O53VKu/neACQZncQB\nclj8k3sFLMya4EEq+DWpAr94wLV8z5iCUQv0dfOpPXo5A6+S+dRYwVfJ8L5Mbt63\nstOunagvAgMBAAECggEAQFMnwum8FZ9F8iO1lLQ7Yi0PrN3kMaDV1fCWPslhwRlZ\n6na7/gpao5sS8OCoyT+wdp0/+19UBRROdUh5+lTqqagNGLZrmsTonpvZQCgIKKeg\naEeBPZvwLRwpGa0T8HUiH/8y9ICEDpTz/6BMyjzHBClky1yErDalNmDayBeCPTZh\nLB9f81W+1polFoFZFJkFLCw/S/5nn/2VlCYCatRfsnSFBWNQ8UyGzztzqdmBkpGM\nbWBX8mHZmOODJ4s7VbdRmZo9noPtAF41B6tYXGaT+9R4uXlASJJ4pSrduTSpYi7h\nfGyPNCM8h21BzUzBqBjuj8R+m5fW2tA2OHpTzuSmAQKBgQD5jsNiRColIhb8DdTA\n50Qi22f7o7bOgVZMAVl6P32R0Y3jyHY4YSmJIpozctgZlgdDEdp4Owk2xb8457ok\nPSNznyF1soeUQrrY3JbZTUHew8f4xuBG8zZ48iNYqscDwt4H2arNuCNXIhS3XIi0\nIPwxLtAp2U4LGrkGKiElhTincQKBgQDC3eROe35+0vGTYk98PjoW5o4zdZTZTpsI\nvVxSR1xQUAtSm1GwZzZwPMSh6xlikIQZOBH+r8ipkW2ClhU6NlOEtILO0e+pcfs4\nOhQpZpwsMWxXorJYU/bhK9mlgwMT1tNwCzucixs7gVMbJiQPsS0uC6Mf6VznZa2H\nPdP78b25nwKBgC6T/tOwdU1I95FD45m9kHIREW9eNxiD+19kQRcYEo/M1PbWy3nq\naJ433yALJ1pfLivOgUA/hJC8h9xPI+bvolZKNSyKjdOWQNmJEn6sdMbnM8OzGtkj\nO9+HEiHSfiKtlFNSxRZwb+grbEJs+vbj0S481o15CZ/49N+5rUYbf1+BAoGAfIKx\nRWBtE/YO+4A+j4FnNoi8Za8Em9E5CF2OJtiH6J0sjuzFRnS8ePyrG1aP0sXKUh7c\niKKjEY3lriHdkGNz/AAm8KV9gARfY67ggQ+aTDaMJnbDg+KqhXeySqoqhjumwBm9\nTiooDV51zowRUKGB38D5ywMeJJB4T0i3MW1mL7sCgYBvqgQXdODsY3tJn2pUQyr+\ncjgN6juelqrbr34FWorgCA3IPA9sh5kKiZXBzNlnyN6Ki/me+dL5d8jy4ClfdMni\nOlibtLRPLWaLa04+6xojH4R/CDdk8Mhj67ghwRFyaNanYOrSWb3j0YgZpdag1QDf\nSChEBuPN1NdqpRL4dtIrUQ==\n-----END PRIVATE KEY-----\n"
+    },
+   databaseURL: "copycat-a727c.firebaseio.com"
+});
 
 restService.use(bodyParser.urlencoded({
     extended: true
@@ -27,77 +35,28 @@ restService.post('/testToken', function(req, res) {
     var command = req.body.result && req.body.result.parameters && req.body.result.parameters.command? req.body.result.parameters.command : "";
     var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
     var sendCommand = (command + " " + state).trim();
-    
-    /*var clientId="862675482394-53d0qctv04es2ikt30klg5g1tkgvl24o.apps.googleusercontent.com";
-    var clientSecret="8-YHNjXJd1_Og8gDqt2Nd0PD";
-    var redirectUrl="https://oauth-redirect.googleusercontent.com/r/crast-webhook";
-    var oauth2Client = new auth.OAuth2(clientId, clientSecret,redirectUrl);
-    var dateTimeRetrieved = req.body.result && req.body.result.parameters && req.body.result.parameters.date-time? req.body.result.parameters.date-time: "";
-    var any = req.body.result && req.body.result.parameters && req.body.result.parameters.any? 
-    */
-    makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
-    res.setHeader('Content-Type', 'application/json');
-    if(sendCommand !== "") {
-        res.send(JSON.stringify({ 'speech': output, 'displayText': output }));
-    }
-    else {
-        res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
-    }
-        
-      }).catch((error) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
-      });
-    //console.log(dateTimeRetrieved)
-    //console.log("dateTimeRetrieved")
-    /*var resource = {
-        summary: events.Event_name,
-        location: location.Location,
-        start: {
-            dateTime: dateTimeRetrieved
-        },
-        end: {
-            dateTime: dateTimeRetrieved
-        },
-        attendees: ['me']
-    };
-              
-    if(command === "") {
-        var calendar = google.calendar('v3');
-        calendar.events.insert({
-        auth: oauth2Client,
-        calendarId: 'primary',
-        sendNotifications: true,
-        resource: resource
-            },function(err,resp) {
-                if (err) {
-                    res.send(JSON.stringify({ 'speech': "Sorry there is an error", 'displayText': "Sorry there is an error" }));
-                }
-                else {
-                    res.send(JSON.stringify({ 'speech': "Event is set", 'displayText': "Event is set" }));
-                }
-            }); 
-        }
-    //var command = req.body.result && req.body.result.parameters && req.body.result.parameters.? 
-    if(command === "turn") {
-
-    }
-    else {
-        makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', 'help').then((output) => {
-        res.setHeader('Content-Type', 'application/json');
-        if(sendCommand !== "") {
-            res.send(JSON.stringify({ 'speech': 'help', 'displayText': 'help' }));
-        }
-        else {
-            res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
-        }
+    if(sendCommand !== "" && command === "turn") {
+        makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ 'speech': "Light is " + state, 'displayText': "Light is " + state }));
 
         }).catch((error) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
-    }*/
+    } else if(sendCommand === "help") {
+        makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', "help").then((output) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ 'speech': "help", 'displayText': "help" }));
 
+        }).catch((error) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
+        });
+    } else {
+                res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+    }
+    
 });
 
 function makeRequest (method, url, commandString) { 
