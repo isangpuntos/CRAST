@@ -80,7 +80,7 @@ restService.post('/testToken', function(req, res) {
             var array = Object.keys(obj);
             for (var i = 0; i < array.length; i++) {
 				console.log(array[i])
-				console.log(date)
+				console.log(JSON.stringify(date))
                 if(array[i] === date) {
                     var innerJSON = JSON.parse(JSON.stringify(obj[array[i]]))
                     var innerArr = Object.keys(innerJSON)
