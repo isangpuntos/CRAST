@@ -64,10 +64,14 @@ restService.post('/testToken', function(req, res) {
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
     } else if(date !== "" && time !== "" && task !== "") {
-        firebase.database().ref(date).update({
-            [time] : task
-        });
-        res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
+		try {
+			firebase.database().ref(date).update({
+				[time] : task
+			});
+			res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
+		} catch (err) {
+			res.send(JSON.stringify({ 'speech': "I have problems in setting schedule", 'displayText': "I have problems in setting schedule" }));
+		}
         
     } else if(date !== "" && time === "" && task === "") {
         firebase.database().ref('/').on("value", function(snapshot) {
