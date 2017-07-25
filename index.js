@@ -37,7 +37,9 @@ restService.post('/testToken', function(req, res) {
     var date = req.body.result && req.body.result.parameters && req.body.result.parameters.date? req.body.result.parameters.date : "";
     var time = req.body.result && req.body.result.parameters && req.body.result.parameters.time? req.body.result.parameters.time : "";
     var task = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
-    console.log(command)
+    console.log(req.body.result)
+	console.log(req.body.result.parameters)
+	console.log(command)
 	console.log(state)
     console.log(date)
     console.log(time)
