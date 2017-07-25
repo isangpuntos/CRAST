@@ -67,7 +67,7 @@ restService.post('/testToken', function(req, res) {
         });
         res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
         
-    } else if(date !== "" && time === "" && event === "") {
+    } else if(date !== "" && time === "" && task === "") {
         firebase.database().ref('/').on("value", function(snapshot) {
             var sched = date + "\n"
             var obj = JSON.parse(JSON.stringify(snapshot.val()));
