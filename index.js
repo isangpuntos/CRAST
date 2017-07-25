@@ -39,6 +39,13 @@ restService.post('/testToken', function(req, res) {
     var task = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
 
     var sendCommand = (command + " " + state).trim();
+	
+	console.log(command)
+	console.log(state)
+	console.log(date)
+	console.log(time)
+	console.log(task)
+	
     if(sendCommand !== "" && command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
             res.setHeader('Content-Type', 'application/json');
