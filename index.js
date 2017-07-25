@@ -61,9 +61,9 @@ restService.post('/testToken', function(req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
-    } else if(date !== "" && time !== "" && event !== "") {
+    } else if(date !== "" && time !== "" && task !== "") {
         firebase.database().ref(date).update({
-            [time] : event
+            [time] : task
         });
         res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
         
