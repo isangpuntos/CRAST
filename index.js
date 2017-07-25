@@ -34,8 +34,8 @@ restService.post('/echo', function(req, res) {
 restService.post('/testToken', function(req, res) {
     var command = req.body.result && req.body.result.parameters && req.body.result.parameters.command? req.body.result.parameters.command : "";
     var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
-    var date = req.body.result && req.body.result.parameters && req.body.result.parameters.dateMentioned? req.body.result.parameters.dateMentioned : "";
-    var time = req.body.result && req.body.result.parameters && req.body.result.parameters.timeMentioned? req.body.result.parameters.timeMentioned : "";
+    var date = req.body.result && req.body.result.parameters && req.body.result.parameters.date? req.body.result.parameters.date : "";
+    var time = req.body.result && req.body.result.parameters && req.body.result.parameters.time? req.body.result.parameters.time : "";
     var task = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
 
     var sendCommand = (command + " " + state).trim();
