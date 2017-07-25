@@ -70,7 +70,7 @@ restService.post('/testToken', function(req, res) {
 			});
 			res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
 		} catch (err) {
-			res.send(JSON.stringify({ 'speech': "I have problems in setting schedule", 'displayText': "I have problems in setting schedule" }));
+			res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "I have problems in setting schedule" }));
 		}
         
     } else if(date !== "" && time === "" && task === "") {
@@ -79,6 +79,8 @@ restService.post('/testToken', function(req, res) {
             var obj = JSON.parse(JSON.stringify(snapshot.val()));
             var array = Object.keys(obj);
             for (var i = 0; i < array.length; i++) {
+				console.log(array[i])
+				console.log(date)
                 if(array[i] === date) {
                     var innerJSON = JSON.parse(JSON.stringify(obj[array[i]]))
                     var innerArr = Object.keys(innerJSON)
