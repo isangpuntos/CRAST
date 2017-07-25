@@ -37,13 +37,7 @@ restService.post('/testToken', function(req, res) {
     var date = req.body.result && req.body.result.parameters && req.body.result.parameters.dateMentioned? req.body.result.parameters.dateMentioned : "";
     var time = req.body.result && req.body.result.parameters && req.body.result.parameters.timeMentioned? req.body.result.parameters.timeMentioned : "";
     var task = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
-    console.log(req.body.result)
-	console.log(req.body.result.parameters)
-	console.log(command)
-	console.log(state)
-    console.log(date)
-    console.log(time)
-    console.log(task)
+
     var sendCommand = (command + " " + state).trim();
     if(sendCommand !== "" && command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
@@ -79,9 +73,7 @@ restService.post('/testToken', function(req, res) {
             var obj = JSON.parse(JSON.stringify(snapshot.val()));
             var array = Object.keys(obj);
             for (var i = 0; i < array.length; i++) {
-				console.log("[\"" + array[i] + "\"]")
-				console.log(JSON.stringify(date))
-                if(("[\"" + array[i] + "\"]") === date) {
+                if(("[\"" + array[i] + "\"]") === JSON.stringify(date)) {
                     var innerJSON = JSON.parse(JSON.stringify(obj[array[i]]))
                     var innerArr = Object.keys(innerJSON)
                     for (var j = 0; j < innerArr.length; j++) 
