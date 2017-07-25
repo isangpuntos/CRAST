@@ -71,6 +71,7 @@ restService.post('/testToken', function(req, res) {
             for (var i = 0; i < array.length; i++) {
                 sched += array[i] + ":" + obj[array[i]] + "\n";
             }
+                res.send(JSON.stringify({ 'speech': sched, 'displayText': sched }));
             }, function (errorObject) {
                 res.send(JSON.stringify({ 'speech': "read failed", 'displayText': "read failed" }));
         });
