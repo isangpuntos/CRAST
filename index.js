@@ -34,6 +34,10 @@ restService.post('/echo', function(req, res) {
 restService.post('/testToken', function(req, res) {
     var command = req.body.result && req.body.result.parameters && req.body.result.parameters.command? req.body.result.parameters.command : "";
     var state = req.body.result && req.body.result.parameters && req.body.result.parameters.state? req.body.result.parameters.state : "";
+    var date = req.body.result && req.body.result.parameters && req.body.result.parameters.date? req.body.result.parameters.date : "";
+    var time = req.body.result && req.body.result.parameters && req.body.result.parameters.time? req.body.result.parameters.time : "";
+    var event = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
+    
     var sendCommand = (command + " " + state).trim();
     if(sendCommand !== "" && command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
@@ -44,7 +48,7 @@ restService.post('/testToken', function(req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
-    } else if(sendCommand === "help") {
+    } else if(sendCommand === "help" || sendCommand === "danger") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', "help").then((output) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': "help", 'displayText': "help" }));
@@ -53,8 +57,26 @@ restService.post('/testToken', function(req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
-    } else {
-                res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
+    } else if(date !== "" && time !== "" && event !== "") {
+        firebase.database().ref(date).update({
+        time : event
+        });
+        res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
+        
+    } else if(date !== "" && time === "" && event === "") {
+        firebase.database().ref('/').on("value", function(snapshot) {
+            var sched = date + "\n"
+            var obj = JSON.parse(JSON.stringify(snapshot.val()));
+            var array = Object.keys(obj);
+            for (var i = 0; i < array.length; i++) {
+                sched += array[i] + ":" + obj[array[i]] + "\n";
+            }
+            }, function (errorObject) {
+                res.send(JSON.stringify({ 'speech': "read failed", 'displayText': "read failed" }));
+        });
+    }
+    else {
+        res.send(JSON.stringify({ 'speech': "Sorry I cannot understand you", 'displayText': "Sorry I cannot understand you" }));
     }
     
 });
