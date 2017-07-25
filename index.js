@@ -72,7 +72,7 @@ restService.post('/testToken', function(req, res) {
                 if(array[i] === date) {
                     var innerJSON = JSON.parse(JSON.stringify(obj[array[i]]))
                     var innerArr = Object.keys(innerJSON)
-                    for (var j = 0; j < array.length; j++) 
+                    for (var j = 0; j < innerArr.length; j++) 
                         sched += innerArr[j] + " - " + innerJSON[innerArr[j]] + "\n";
                 }
             }
