@@ -74,6 +74,7 @@ restService.post('/testToken', function(req, res) {
                     var innerArr = Object.keys(innerJSON)
                     for (var j = 0; j < innerArr.length; j++) 
                         sched += innerArr[j] + " - " + innerJSON[innerArr[j]] + "\n";
+                    
                 }
             }
                 res.send(JSON.stringify({ 'speech': sched, 'displayText': sched }));
