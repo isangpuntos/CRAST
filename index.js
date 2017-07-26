@@ -58,7 +58,7 @@ restService.post('/testToken', function(req, res) {
     } else if(sendCommand === "help" || sendCommand === "danger") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', "help").then((output) => {
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ 'speech': "help", 'displayText': "help" }));
+            res.send(JSON.stringify({ 'speech': "Help alarm is on", 'displayText': "Help alarm is on" }));
 
         }).catch((error) => {
             res.setHeader('Content-Type', 'application/json');
@@ -71,7 +71,7 @@ restService.post('/testToken', function(req, res) {
 			});
 			res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "Schedule has been set" }));
 		} catch (err) {
-			res.send(JSON.stringify({ 'speech': "Schedule has been set", 'displayText': "I have problems in setting schedule" }));
+			res.send(JSON.stringify({ 'speech': "I have problems in setting schedule", 'displayText': "I have problems in setting schedule" }));
 		}
         
     } else if(date !== "" && time === "" && task === "") {
