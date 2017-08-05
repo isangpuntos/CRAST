@@ -65,8 +65,7 @@ restService.post('/testToken', function(req, res) {
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
     } else if(sendCommand.toLowerCase() === "send" && contact !== "" && task !== "") {
-        nexmo.message.sendSms("09477007889", contact, task,
-        (err, responseData) => {
+        nexmo.message.sendSms("639477007889", contact, task, (err, responseData) => {
            if (err) {
                console.log(err);
                res.send(JSON.stringify({ 'speech': "Error Sending Message", 'displayText': "Error Sending Message" }));
