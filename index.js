@@ -53,6 +53,7 @@ restService.post('/testToken', function(req, res) {
 	console.log(time)
 	console.log(task)
 	console.log(contact)
+        console.log(sendCommand)
 	
     if(sendCommand !== "" && command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
@@ -63,7 +64,7 @@ restService.post('/testToken', function(req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
-    } else if(sendCommand === "send" && contact !== "" && task !== "") {
+    } else if(sendCommand.toLowerCase() === "send" && contact !== "" && task !== "") {
         nexmo.message.sendSms("09477007889", contact, task,
         (err, responseData) => {
            if (err) {
