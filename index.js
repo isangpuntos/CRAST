@@ -17,10 +17,10 @@ var app = firebase.initializeApp({
    databaseURL: "copycat-a727c.firebaseio.com"
 });
 
-var nexmo = new Nexmo({
-    apiKey: 0d015ab6,
-    apiSecret: 2bd6d40b997174c1
-  });
+var nexmo = new Nexmo({
+    apiKey: 0d015ab6,
+    apiSecret: 2bd6d40b997174c1
+  });
 
 restService.use(bodyParser.urlencoded({
     extended: true
