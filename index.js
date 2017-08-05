@@ -6,6 +6,7 @@ const restService = express();
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var Promise = require('promise');
 var firebase = require('firebase');
+console.log('Nexmo');
 var Nexmo = require('nexmo');
 
 var app = firebase.initializeApp({
