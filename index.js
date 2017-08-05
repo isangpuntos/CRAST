@@ -2,11 +2,12 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const restService = express();
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var Promise = require('promise');
 var firebase = require('firebase');
+var Nexmo = require('nexmo');
+
 var app = firebase.initializeApp({
     ServiceAccount: {
        projectId: "copycat-a727c",
@@ -15,6 +16,11 @@ var app = firebase.initializeApp({
     },
    databaseURL: "copycat-a727c.firebaseio.com"
 });
+
+var nexmo = new Nexmo({
+    apiKey: 0d015ab6,
+    apiSecret: 2bd6d40b997174c1
+  });
 
 restService.use(bodyParser.urlencoded({
     extended: true
@@ -37,6 +43,7 @@ restService.post('/testToken', function(req, res) {
     var date = req.body.result && req.body.result.parameters && req.body.result.parameters.date? req.body.result.parameters.date : "";
     var time = req.body.result && req.body.result.parameters && req.body.result.parameters.time? req.body.result.parameters.time : "";
     var task = req.body.result && req.body.result.parameters && req.body.result.parameters.any? req.body.result.parameters.any : "";
+    var contact = req.body.result && req.body.result.parameters && req.body.result.parameters.number? req.body.result.parameters.number : "";
 
     var sendCommand = (command + " " + state).trim();
 	
@@ -45,6 +52,7 @@ restService.post('/testToken', function(req, res) {
 	console.log(date)
 	console.log(time)
 	console.log(task)
+	console.log(contact)
 	
     if(sendCommand !== "" && command === "turn") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', sendCommand).then((output) => {
@@ -55,6 +63,18 @@ restService.post('/testToken', function(req, res) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': error, 'displayText': error }));
         });
+    } else if(sendCommand === "send" && contact !== "" && task !== "") {
+        nexmo.message.sendSms("09477007889", contact, task,
+        (err, responseData) => {
+           if (err) {
+               console.log(err);
+               res.send(JSON.stringify({ 'speech': "Error Sending Message", 'displayText': "Error Sending Message" }));
+           } else {
+               console.dir(responseData);
+               res.send(JSON.stringify({ 'speech': "Message Sent", 'displayText': "Message Sent" }));
+              }
+            }
+        );
     } else if(sendCommand === "help" || sendCommand === "danger") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', "help").then((output) => {
             res.setHeader('Content-Type', 'application/json');
