@@ -83,7 +83,6 @@ restService.post('/testToken', function(req, res) {
 				   res.send(JSON.stringify({ 'speech': "Error Sending Message", 'displayText': "Error Sending Message" }));
 			   } else {
 				   console.dir(responseData);
-				   res.send(JSON.stringify({ 'speech': "Message Sent", 'displayText': "Message Sent" }));
 				  }
 				}
 			);
