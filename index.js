@@ -77,7 +77,17 @@ restService.post('/testToken', function(req, res) {
         );
     } else if(sendCommand === "help" || sendCommand === "danger") {
         makeRequest('POST', 'https://api.thingspeak.com/talkbacks/16926/commands.json', "help").then((output) => {
-            res.setHeader('Content-Type', 'application/json');
+			nexmo.message.sendSms("639477007889", "639108396462", "HELP!!!", (err, responseData) => {
+			   if (err) {
+				   console.log(err);
+				   res.send(JSON.stringify({ 'speech': "Error Sending Message", 'displayText': "Error Sending Message" }));
+			   } else {
+				   console.dir(responseData);
+				   res.send(JSON.stringify({ 'speech': "Message Sent", 'displayText': "Message Sent" }));
+				  }
+				}
+			);
+			res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ 'speech': "Help alarm is on", 'displayText': "Help alarm is on" }));
 
         }).catch((error) => {
