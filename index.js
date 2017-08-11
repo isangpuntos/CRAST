@@ -18,8 +18,8 @@ var app = firebase.initializeApp({
 });
 
 var nexmo = new Nexmo({
-    apiKey: 'c481104e',
-    apiSecret: 'd16274995ecb86f1'
+    apiKey: '0d015ab6',
+    apiSecret: '2bd6d40b997174c1'
   });
 
 restService.use(bodyParser.urlencoded({
